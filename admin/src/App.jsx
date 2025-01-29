@@ -8,7 +8,7 @@ import Orders from "./pages/Orders";
 import Sidebar from "./components/Sidebar";
 import Login from "./components/Login";
 
-export const serverURL = import.meta.env.VITE_BACKENDURL ;
+export const serverURL = import.meta.env.VITE_BACKEND_URL ;
 const App = () => {
   const [token, setToken] = useState(
     localStorage.getItem("token") ? localStorage.getItem("token") : ""
