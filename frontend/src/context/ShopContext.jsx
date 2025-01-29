@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { serverURL } from "../App";
 import axios from "axios";
 
 export const ShopContext = createContext();
@@ -15,7 +14,7 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-
+const backendUrl= import.meta.env.VITE_BACKEND_URL
   // Fetch products from the backend
 
   const [listProduct, setListProduct] = useState([]);
@@ -23,7 +22,7 @@ const ShopContextProvider = (props) => {
   const fetchListProducts = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000" + "/api/product/list"
+        backendUrl + "/api/product/list"
       );
       console.log(res);
       if (res.data.success) {
@@ -66,7 +65,7 @@ const ShopContextProvider = (props) => {
     toast.success("added to cart");
     if(token){
       try {
-        await axios.post("http://localhost:4000" + "/api/cart/add",{itemId, size},{headers:{token}})
+        await axios.post(backendUrl + "/api/cart/add",{itemId, size},{headers:{token}})
       } catch (error) {
         console.log(error);
         toast.error(error.message)
@@ -112,7 +111,7 @@ const ShopContextProvider = (props) => {
     setCartItems(cartData);
     if(token){
       try {
-        await axios.post("http://localhost:4000" + "/api/cart/update",{itemId, size,quantity},{headers:{token}})
+        await axios.post(backendUrl + "/api/cart/update",{itemId, size,quantity},{headers:{token}})
       } catch (error) {
         console.log(error);
         toast.error(error.message)
@@ -122,7 +121,7 @@ const ShopContextProvider = (props) => {
   };
 const getUserCart=async(token)=>{
 try {
-  const res= await axios.get('http://localhost:4000'+'/api/cart/get',{headers:{token}})
+  const res= await axios.get(backendUrl+'/api/cart/get',{headers:{token}})
   if (res.data.success){
     setCartItems(res.data.cartData)
   }
@@ -167,7 +166,7 @@ try {
     getCartAmount,
     addOrder,
     orders,
-    navigate,setCartItems
+    navigate,setCartItems,backendUrl
   };
 
   return (

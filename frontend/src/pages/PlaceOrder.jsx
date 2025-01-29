@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
   const [paymentMethod, setPaymentMethod] = useState("COD");
+  const{backendUrl}=useContext(ShopContext)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -57,7 +58,7 @@ const PlaceOrder = () => {
       switch (paymentMethod) {
         case "COD":
           const res = await axios.post(
-            "http://localhost:4000" + "/api/order/place",
+            backendUrl + "/api/order/place",
             orderData,
             { headers: { token } }
           );
@@ -71,7 +72,7 @@ const PlaceOrder = () => {
 
         case "payonline":
            const response = await axios.post(
-            "http://localhost:4000" + "/api/order/payment-success",
+            backendUrl + "/api/order/payment-success",
             orderData,
             { headers: { token } }
           );
