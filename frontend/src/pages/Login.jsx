@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
   const [currentState, setCurrentState] = useState('Login');
-  const { setToken, navigate,token } = useContext(ShopContext);
+  const { setToken, navigate,token,backendUrl } = useContext(ShopContext);
 
   // State for form inputs
   const [name, setName] = useState('');
@@ -28,7 +28,7 @@ const Login = () => {
 
       // Logic for Sign Up
       if (current === 'Sign Up') {
-        res = await axios.post('http://localhost:4000/api/user/register', userData);
+        res = await axios.post(backendUrl+'/api/user/register', userData);
         toast.success('User signed up:');
         if (res.data.success){
           setToken(res.data.token)
@@ -41,7 +41,7 @@ const Login = () => {
         navigate('/login'); // Redirect to login page after successful sign-up
       } else {
         // Logic for Login
-        res = await axios.post('http://localhost:4000/api/user/login', userData);
+        res = await axios.post(backendUrl+'/api/user/login', userData);
         console.log('User logged in:', res.data);
 
         if (res.data.success){
